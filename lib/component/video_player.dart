@@ -10,7 +10,7 @@ class YoutubeApi extends StatefulWidget {
 }
 
 class _YoutubeApiState extends State<YoutubeApi> {
-  static String key = "AIzaSyCrynVUz-_NIvLuKF0B95Vil--lz6WN75U";
+  static String key = "KEY_API";
 
   YoutubeAPI youtube = YoutubeAPI(key);
   List<YouTubeVideo> videoResult = [];
