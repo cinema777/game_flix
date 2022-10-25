@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_flix/data/task_inherited.dart';
 import 'package:game_flix/screen/home_screen.dart';
 
 void main() {
@@ -15,7 +16,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
-      home: HomeScreen(),
+      home: TaskInherited(
+          child: const HomeScreen()
+      ),
     );
   }
 }

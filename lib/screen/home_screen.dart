@@ -1,12 +1,25 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
 import 'package:flutter/material.dart';
-import 'package:youtube_api/youtube_api.dart';
+import 'package:game_flix/data/task_inherited.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'add_video.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  openUrl() async {
+    const url = 'https://www.youtube.com/watch?v=r9buAwVBDhA';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     final ButtonStyle style = ElevatedButton.styleFrom(
         textStyle: const TextStyle(
           fontSize: 18,
@@ -17,15 +30,21 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black87,
       appBar: AppBar(
-        toolbarHeight: 80,
-        centerTitle: true,
-        title: Column(
-          children: const [
-            Text('GameFlix'),
-          ],
+        title: Container(
+          alignment: AlignmentDirectional.bottomCenter,
+          width: 400,
+          height: 50,
+          child: const Text(
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 32,
+                  fontFamily: 'BebasNeue',
+                ),
+                'GAMEFLIX'
+            ),
         ),
       ),
-      body: Column(
+      body: ListView(
         children: [
           Stack(
             alignment: Alignment.bottomCenter,
@@ -38,92 +57,86 @@ class HomeScreen extends StatelessWidget {
               ),
               ElevatedButton(
                 style: style,
-                onPressed: (){},
+                onPressed: (){
+                  openUrl();
+                },
                 child:
-                Text('Assistir Agora'),
+                const Text('Assistir Agora'),
               ),
             ],
           ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.only(top: 20, left: 35, right: 35,),
               child: Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(6),
+                    padding: const EdgeInsets.only(right: 6),
                     child: ElevatedButton(
                       onPressed: (){},
                       child: const Text('Ação'),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(6),
+                    padding: const EdgeInsets.only(right: 6),
+                    child: ElevatedButton(
+                      onPressed: (){},
+                      child: const Text('Desenvolvimento'),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 6),
                     child: ElevatedButton(
                       onPressed: (){},
                       child: const Text('Moba'),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(6),
+                    padding: const EdgeInsets.only(right: 6),
                     child: ElevatedButton(
                       onPressed: (){},
-                      child: const Text('Ação'),
+                      child: const Text('Aventura'),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(6),
+                    padding: const EdgeInsets.only(right: 6),
                     child: ElevatedButton(
                       onPressed: (){},
-                      child: const Text('Ação'),
+                      child: const Text('Tiro'),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(6),
+                    padding: const EdgeInsets.only(right: 6),
                     child: ElevatedButton(
                       onPressed: (){},
-                      child: const Text('Ação'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(6),
-                    child: ElevatedButton(
-                      onPressed: (){},
-                      child: const Text('Ação'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(6),
-                    child: ElevatedButton(
-                      onPressed: (){},
-                      child: const Text('Ação'),
+                      child: const Text('Corrida'),
                     ),
                   ),
                 ],
               ),
             ),
           ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 25, right: 25),
-                child: ElevatedButton(
-                  style: style,
-                  onPressed: (){},
-                  child:
-                  Text('Moba'),
-                ),
-              ),
-            ],
+          ListBody(
+            children: (
+              TaskInherited.of(context).taskList
+            ),
           ),
-          Container(
-            color: Colors.white,
-            width: 320,
-            height: 180,
-          ),
-
+          const SizedBox(
+            height: 70,
+          )
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(
+          Icons.add
+        ),
+          onPressed: (){
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AddVideo()));
+      }),
     );
   }
 }
